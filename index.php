@@ -105,7 +105,7 @@
         <li><a href="#como-funciona">Cómo funciona</a></li>
         <li><a href="#planes">Planes</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contacto" class="btn btn-primary" style="padding:.6rem 1rem;">Contactar</a></li>
+        <li><a href="#contacto" class="btn btn-primary" style="padding:.6rem 1rem;" data-origen="Navegacion">Contactar</a></li>
       </ul>
     </nav>
   </div>
@@ -130,7 +130,7 @@
   <div class="container">
     <h1>Como rentabilizar mi negocio con una centralita externa</h1>
     <p>Deja de perder llamadas y oportunidades. Nos encargamos de atender, filtrar y redirigir cada llamada a quien corresponde. Tú te centras en tu negocio; nosotros en que nadie se quede sin respuesta.</p>
-    <a href="#contacto" class="btn btn-outline">Quiero más información</a>
+    <a href="#contacto" class="btn btn-outline" data-origen="Hero">Quiero más información</a>
   </div>
 </section>
 
@@ -212,7 +212,7 @@
           <li>Resumen diario por email</li>
           <li>1 departamento de desvío</li>
         </ul>
-        <a href="#contacto" class="btn btn-primary">Lo quiero</a>
+        <a href="#contacto" class="btn btn-primary" data-origen="Plan Starter">Lo quiero</a>
       </div>
       <div class="plan highlight">
         <span class="badge">Más popular</span>
@@ -224,7 +224,7 @@
           <li>Filtrado avanzado y scripts personalizados</li>
           <li>Hasta 3 departamentos</li>
         </ul>
-        <a href="#contacto" class="btn btn-primary">Contratar ahora</a>
+        <a href="#contacto" class="btn btn-primary" data-origen="Plan Business">Contratar ahora</a>
       </div>
       <div class="plan">
         <h3>Enterprise</h3>
@@ -235,7 +235,7 @@
           <li>Horarios extendidos y multi-idioma</li>
           <li>Gestor dedicado</li>
         </ul>
-        <a href="#contacto" class="btn btn-primary">Pedir presupuesto</a>
+        <a href="#contacto" class="btn btn-primary" data-origen="Plan Enterprise">Pedir presupuesto</a>
       </div>
     </div>
   </div>
@@ -271,13 +271,9 @@
     <h2 class="center">Hablemos</h2>
     <p class="center">Cuéntanos qué necesitas y te responderemos en menos de 24 horas.</p>
 
-    <!-- Mostrar mensaje tras enviar -->
-    <?php if (isset($_GET['enviado'])): ?>
-      <?php if ($_GET['enviado'] == '1'): ?>
-        <div class="alert success">¡Gracias! Nos pondremos en contacto contigo.</div>
-      <?php else: ?>
-        <div class="alert error">Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.</div>
-      <?php endif; ?>
+    <!-- Mostrar mensaje de error -->
+    <?php if (isset($_GET['enviado']) && $_GET['enviado'] == '0'): ?>
+      <div class="alert error">Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.</div>
     <?php endif; ?>
 
     <form action="contact.php" method="post" class="mt-3">
@@ -292,6 +288,7 @@
 
       <label for="mensaje" class="sr-only">Mensaje</label>
       <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu caso"></textarea>
+      <input type="hidden" id="origen" name="origen" value="Pagina principal">
 
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
@@ -308,6 +305,13 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+  document.querySelectorAll('a[href="#contacto"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      var origen = this.dataset.origen || this.textContent.trim();
+      var input = document.getElementById('origen');
+      if (input) input.value = origen;
+    });
+  });
 </script>
 </body>
 </html>

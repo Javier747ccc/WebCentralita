@@ -5,6 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $telefono = strip_tags(trim($_POST['telefono']));
     $mensaje  = trim($_POST['mensaje']);
+    $origen   = strip_tags(trim($_POST['origen'] ?? 'Desconocido'));
 
     // Destino y asunto
     $to      = 'javierccc8@gmail.com';
@@ -12,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Cuerpo del correo
     $body  = "Has recibido un nuevo mensaje desde el formulario de contacto:\n\n";
+    $body .= "Origen: $origen\n";
     $body .= "Nombre: $nombre\n";
     $body .= "Email: $email\n";
     $body .= "Teléfono: $telefono\n\n";
@@ -24,12 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Enviamos
     if (mail($to, $subject, $body, $headers)) {
-        // Redirigimos de vuelta con parámetro de éxito
-        header('Location: index.html?enviado=1#contacto');
+        // Redirigimos a la página de agradecimiento
+        header('Location: gracias.html');
         exit;
     } else {
         // Redirigimos con error
-        header('Location: index.html?enviado=0#contacto');
+        header('Location: index.php?enviado=0#contacto');
         exit;
     }
 }
