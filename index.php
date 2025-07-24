@@ -271,13 +271,9 @@
     <h2 class="center">Hablemos</h2>
     <p class="center">Cuéntanos qué necesitas y te responderemos en menos de 24 horas.</p>
 
-    <!-- Mostrar mensaje tras enviar -->
-    <?php if (isset($_GET['enviado'])): ?>
-      <?php if ($_GET['enviado'] == '1'): ?>
-        <div class="alert success">¡Gracias! Nos pondremos en contacto contigo.</div>
-      <?php else: ?>
-        <div class="alert error">Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.</div>
-      <?php endif; ?>
+    <!-- Mostrar mensaje de error -->
+    <?php if (isset($_GET['enviado']) && $_GET['enviado'] == '0'): ?>
+      <div class="alert error">Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.</div>
     <?php endif; ?>
 
     <form action="contact.php" method="post" class="mt-3">
